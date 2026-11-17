@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chúc Mừng 20/11 Cô 栾老师</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 15px;
+  }
+  .chk { position: fixed; top: -99px; opacity: 0; }
+  .box {
+    background: #fff; border-radius: 20px; box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    max-width: 850px; width: 100%; padding: 25px; display: flex; flex-wrap: wrap;
+    gap: 25px; align-items: center; justify-content: center; border: 3px solid #f3a683;
+  }
+  .card {
+    flex: 1; min-width: 270px; text-align: center; padding: 20px;
+    background: #fff9f5; border-radius: 15px; border: 2px dashed #e17055;
+  }
+  .card h1 { color: #d63031; font-size: 2rem; margin-bottom: 6px; }
+  .card h3 { color: #e17055; font-size: 1rem; margin-bottom: 14px; }
+  .card p { font-size: 0.95rem; line-height: 1.6; color: #444; margin-bottom: 12px; text-align: justify; }
+  .sign { font-weight: bold; color: #d63031; text-align: right; font-style: italic; }
+
+  .game { flex: 1; min-width: 290px; display: flex; flex-direction: column; align-items: center; }
+  .badge {
+    background: #fff0f0; color: #d63031; border: 1.5px solid #fab1a0;
+    padding: 7px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; margin-bottom: 15px;
+  }
+  .b2, .b1, .b0 { display: none; }
+
+  .wheel-wrap { position: relative; width: 280px; height: 280px; margin-bottom: 20px; }
+  .pin {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    border-left: 15px solid transparent; border-right: 15px solid transparent;
+    border-top: 26px solid #d63031; z-index: 20;
+  }
+  .wheel {
+    width: 100%; height: 100%; border-radius: 50%; border: 6px solid #fff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2); position: relative; overflow: hidden;
+    background: conic-gradient(#ff7675 0deg 72deg, #74b9ff 72deg 144deg, #55efc4 144deg 216deg, #ffeaa7 216deg 288deg, #a29bfe 288deg 360deg);
+    transition: transform 6.5s cubic-bezier(0.12, 0.8, 0.15, 1);
+  }
+  .wheel::after {
+    content: "20/11"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 50px; height: 50px; background: #fff; border-radius: 50%; border: 4px solid #d63031;
+    display: flex; align-items: center; justify-content: center; font-weight: bold; color: #d63031; font-size: 0.85rem;
+  }
+  .txt {
+    position: absolute; top: 50%; left: 50%; width: 125px; transform-origin: 0 0;
+    font-size: 12px; font-weight: bold; color: #2d3436; padding-left: 34px; margin-top: -8px;
+  }
+  .t1 { transform: rotate(-54deg); }
+  .t2 { transform: rotate(18deg); }
+  .t3 { transform: rotate(90deg); }
+  .t4 { transform: rotate(162deg); }
+  .t5 { transform: rotate(234deg); }
+
+  .btn {
+    display: inline-block; background: linear-gradient(45deg, #d63031, #e17055);
+    color: #fff; padding: 14px 34px; font-size: 1.05rem; font-weight: bold;
+    border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(214,48,49,0.4); user-select: none;
+  }
+  .btn2, .btn3, .btn-end { display: none; }
+  .btn-end { background: #b2bec3; box-shadow: none; cursor: not-allowed; }
+
+  /* Lượt 1: Dừng ô Quà bí mật (+36 độ) */
+  #s1:checked ~ .box .wheel { transform: rotate(5076deg); }
+  #s1:checked ~ .box .b3 { display: none; }
+  #s1:checked ~ .box .b2 { display: block; }
+  #s1:checked ~ .box .btn1 { display: none; }
+  #s1:checked ~ .box .btn2 { display: inline-block; }
+
+  /* Lượt 2: Dừng ô Tràng pháo tay (+108 độ) */
+  #s2:checked ~ .box .wheel { transform: rotate(10188deg); }
+  #s2:checked ~ .box .b2 { display: none; }
+  #s2:checked ~ .box .b1 { display: block; }
+  #s2:checked ~ .box .btn2 { display: none; }
+  #s2:checked ~ .box .btn3 { display: inline-block; }
+
+  /* Lượt 3: Dừng lại ô Quà bí mật (+42 độ) */
+  #s3:checked ~ .box .wheel { transform: rotate(15162deg); }
+  #s3:checked ~ .box .b1 { display: none; }
+  #s3:checked ~ .box .b0 { display: block; }
+  #s3:checked ~ .box .btn3 { display: none; }
+  #s3:checked ~ .box .btn-end { display: inline-block; }
+
+  .modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex;
+    align-items: center; justify-content: center; z-index: 99; opacity: 0; visibility: hidden; pointer-events: none;
+  }
+  .m-box {
+    background: #fff; padding: 25px; border-radius: 20px; text-align: center; max-width: 340px; width: 90%;
+  }
+  .prize {
+    font-size: 1.3rem; font-weight: bold; color: #d63031; margin: 15px 0;
+    padding: 12px; background: #fff9f5; border-radius: 10px; border: 2px dashed #d63031;
+  }
+  .close {
+    display: inline-block; background: #00b894; color: #fff; padding: 10px 26px;
+    border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px;
+  }
+
+  #s1:checked ~ #m1 { animation: pop 0.3s ease 6.6s forwards; }
+  #c1:checked ~ #m1 { display: none !important; }
+  #s2:checked ~ #m2 { animation: pop 0.3s ease 6.6s forwards; }
+  #c2:checked ~ #m2 { display: none !important; }
+  #s3:checked ~ #m3 { animation: pop 0.3s ease 6.6s forwards; }
+  #c3:checked ~ #m3 { display: none !important; }
+  @keyframes pop { to { opacity: 1; visibility: visible; pointer-events: auto; } }
+</style>
+</head>
+<body>
+  <input type="checkbox" id="s1" class="chk">
+  <input type="checkbox" id="c1" class="chk">
+  <input type="checkbox" id="s2" class="chk">
+  <input type="checkbox" id="c2" class="chk">
+  <input type="checkbox" id="s3" class="chk">
+  <input type="checkbox" id="c3" class="chk">
+
+  <div class="box">
+    <div class="card">
+      <h1>Chúc Mừng 20/11</h1>
+      <h3>Ngày Nhà Giáo Việt Nam</h3>
+      <p>Nhân ngày Nhà giáo Việt Nam 20/11, kính chúc Cô 栾老师 luôn mạnh khỏe, hạnh phúc và giữ mãi ngọn lửa nhiệt huyết với sự nghiệp trồng người. Cảm ơn Cô đã luôn tận tụy dìu dắt chúng em!</p>
+      <p style="text-align:center; color:#d63031; font-weight:bold;">🎁 Bạn có 3 lần quay may mắn! Mời Cô 栾老师 quay vòng quay bên cạnh để nhận quà tri ân từ lớp HSK1!</p>
+      <div class="sign">Tập thể lớp HSK1</div>
+    </div>
+
+    <div class="game">
+      <div class="badge b3">✨ Bạn có 3 lần quay (Còn lại: 3 lượt)</div>
+      <div class="badge b2">✨ Bạn còn lại: 2 lượt quay</div>
+      <div class="badge b1">✨ Bạn còn lại: 1 lượt quay</div>
+      <div class="badge b0">✅ Bạn đã dùng hết 3 lần quay</div>
+
+      <div class="wheel-wrap">
+        <div class="pin"></div>
+        <div class="wheel">
+          <div class="txt t1">Bó hoa tươi</div>
+          <div class="txt t2">Điểm 100 HSK</div>
+          <div class="txt t3">Sổ tay tri ân</div>
+          <div class="txt t4">Tràng pháo tay</div>
+          <div class="txt t5">Quà bí mật</div>
+        </div>
+      </div>
+
+      <label for="s1" class="btn btn1">QUAY NHẬN QUÀ (3 LƯỢT)</label>
+      <label for="s2" class="btn btn2">QUAY TIẾP (2 LƯỢT)</label>
+      <label for="s3" class="btn btn3">QUAY TIẾP (1 LƯỢT)</label>
+      <span class="btn btn-end">ĐÃ HẾT LƯỢT QUAY</span>
+    </div>
+  </div>
+
+  <div class="modal" id="m1">
+    <div class="m-box">
+      <h2 style="color:#d63031;">🎉 CHÚC MỪNG CÔ! 🎉</h2>
+      <p style="margin-top:8px;">Món quà dành tặng Cô 栾老师 là:</p>
+      <div class="prize">Quà bí mật: 201.126 VNĐ. Cô vui lòng liên hệ lớp trưởng HSK1 để nhận quà </div>
+      <p style="font-size:0.9rem; color:#666;">Cô vẫn còn 2 lần quay nữa nhé!</p>
+      <label for="c1" class="close">Nhận Quà Ngay</label>
+    </div>
+  </div>
+
+  <div class="modal" id="m2">
+    <div class="m-box">
+      <h2 style="color:#d63031;">👏 CHÚC MỪNG CÔ! 👏</h2>
+      <p style="margin-top:8px;">Phần thưởng lượt 2 dành tặng Cô là:</p>
+      <div class="prize">Tràng pháo tay!!! Xin 1 tràng pháo tay nồng nhiệt từ các bạn lớp HSK1 nào!</div>
+      <p style="font-size:0.9rem; color:#666;">Cô vẫn còn 1 lần quay cuối cùng nhé!</p>
+      <label for="c2" class="close">Nhận Quà Ngay</label>
+    </div>
+  </div>
+
+  <div class="modal" id="m3">
+    <div class="m-box">
+      <h2 style="color:#d63031;">🎉 CHÚC MỪNG CÔ! 🎉</h2>
+      <p style="margin-top:8px;">Món quà đặc biệt lượt cuối dành tặng Cô là:</p>
+      <div class="prize">Quà bí mật: 201.126 VNĐ. Cô vui lòng liên hệ lớp trưởng HSK1 để nhận quà</div>
+      <p style="font-size:0.9rem; color:#666;">Cô đã hoàn thành cả 3 lần quay tri ân!</p>
+      <label for="c3" class="close">Nhận Quà Ngay</label>
+    </div>
+  </div>
+</body>
+</html>
